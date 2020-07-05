@@ -1,0 +1,14 @@
+dockerfile
+.dockerignore
+.editorconfig
+.gitignore
+node_modules
+package-lock.json
+
+*.yaml
+
+# nuxt.js build output
+.nuxt
+
+# Nuxt generate
+dist

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue.js Tutorial</title>
+  </head>
+  <body>
+    <div id="app">
+      <simple-counter></simple-counter>
+      <simple-counter></simple-counter>
+      <simple-counter></simple-counter>
+    </div>
+    <script>
+      Vue.component('simple-counter', {
+        template: '<button v-on:click="counter += 1">{{ counter }}</button>',
+        data: function() {
+          return {
+            counter: 0
+          }
+        },
+      })
+
+      var app = new Vue({
+        el: '#app'
+      })
+    </script>
+  </body>
+</html>

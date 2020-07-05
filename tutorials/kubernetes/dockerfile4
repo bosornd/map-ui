@@ -1,0 +1,10 @@
+FROM node:12.18.0
+
+WORKDIR /src
+COPY package4.json ./package.json
+RUN npm install
+
+COPY server4.js .
+
+EXPOSE 8080
+CMD npm start

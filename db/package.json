@@ -1,0 +1,13 @@
+{
+  "name": "server",
+  "version": "0.0.1",
+  "description": "DB API SERVER",
+  "author": "Yong Jin, Cho <drajin.cho@bosornd.com>",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "latest",
+    "mongoose": "latest"
+  }
+}

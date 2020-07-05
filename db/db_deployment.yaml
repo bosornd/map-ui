@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+
+kind: Deployment
+metadata:
+  name: mongo-db
+  labels:
+    db: mongo-db
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      db: mongo-db
+  template:
+    metadata:
+      labels:
+        db: mongo-db
+    spec:
+      containers:
+      - name: mongo-db
+        image: mongo
+        volumeMounts:
+        - name: mongo-db-storage
+          mountPath: /data/db
+        - name: host
+          mountPath: /host
+      volumes:
+      - name: mongo-db-storage
+        persistentVolumeClaim:
+          claimName: db-pvc
+      - name: host
+        hostPath:
+          path: /dataset
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-pvc
+  labels:
+    db: mongo-db
+
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: v1
+
+kind: Service
+metadata:
+  name: mongo-db
+  labels:
+    db: mongo-db
+
+spec:
+  ports:
+    - port: 27017
+  selector:
+    db: mongo-db

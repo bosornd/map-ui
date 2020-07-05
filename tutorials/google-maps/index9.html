@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Maps Tutorial</title>
+    <style type="text/css">
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+
+      /* Makes the sample page fill the window. */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script>
+    // Initialize and add the map
+    function initMap() {
+      // The location of seoul station
+      var seoul = { lat: 37.5547787, lng: 126.9706673 };
+      var options = {
+        center: seoul,
+        zoom: 15,
+      };
+      // The map, centered at seoul station
+      var map = new google.maps.Map(document.getElementById('map'), options);
+
+      // GeoJSON format data
+      var geodata = {
+        "type": "FeatureCollection",
+        "features": [
+          { "type": "Feature", "geometry": { "type": "Point", "coordinates": [ 126.97081750370484, 37.55506788676746 ] }, "properties": { "name": "서울역" } },
+          { "type": "Feature", "geometry": { "type": "Point", "coordinates": [ 126.97714751697998, 37.56547786297515 ] }, "properties": { "name": "시청역" } },
+          { "type": "Feature", "geometry": { "type": "Point", "coordinates": [ 126.98303263797399, 37.57004847771681 ] }, "properties": { "name": "종각역" } },
+          { "type": "Feature", "geometry": { "type": "Point", "coordinates": [ 127.00206457975331, 37.57086483483164 ] }, "properties": { "name": "종로5가역" } },
+          { "type": "Feature", "geometry": { "type": "Point", "coordinates": [ 127.00931727292956, 37.57076279068163 ] }, "properties": { "name": "동대문역" } },
+          { "type": "Feature", "geometry": { "type": "Point", "coordinates": [ 127.01644122007312, 37.57310977075909 ] }, "properties": { "name": "동묘앞역" } },
+          { "type": "Feature", "geometry": { "type": "Point", "coordinates": [ 127.02472388151111, 37.57589883931141 ] }, "properties": { "name": "신설동역" } },
+          { "type": "Feature", "geometry": { "type": "Point", "coordinates": [ 127.03480898740711, 37.57790554352841 ] }, "properties": { "name": "제기동역" } },
+          { "type": "Feature", "geometry": { "type": "Point", "coordinates": [ 127.04510867002429, 37.57998021475647 ] }, "properties": { "name": "청량리역" } },
+          { "type": "Feature", "geometry": { "type": "Point", "coordinates": [ 126.97139652100478, 37.54099195175186 ] }, "properties": { "name": "남영역" } },
+          { "type": "Feature", "geometry": { "type": "Point", "coordinates": [ 126.96478755799208, 37.52952352206317 ] }, "properties": { "name": "용산역" } },
+          { "type": "Feature", "geometry": { "type": "Point", "coordinates": [ 126.94099463889155, 37.51339564115743 ] }, "properties": { "name": "노량진역" } },
+        ]
+      };
+
+//      map.data.addGeoJson(geodata);
+      map.data.setStyle(function(feature){
+        return {
+          icon: {
+            anchor: { x: 12, y: 12 },
+            labelOrigin: { x:12, y: 30 },
+            url: "/icons/subway-24px.svg",
+          },
+          label: {
+            color: "#FF0000",
+            text: feature.getProperty("name"),
+          },
+          title: feature.getProperty("name"),    // rollover text
+        };
+      });
+
+      const infowindow = new google.maps.InfoWindow();
+      map.data.addListener('click', function(e){
+        const feature = e.feature;
+        const name = feature.getProperty("name");
+        const position = e.latLng;
+
+        infowindow.setPosition(position);
+        infowindow.setContent("<div align=center><img src=/icons/subway-24px.svg /><br><b>"
+                                + name + "</b><br>(" + position.lng() + "," + position.lat() + ")</div>");
+        infowindow.open(map);
+      });
+
+      map.addListener('idle', function(){
+        // remove all
+        map.data.forEach(function(feature){
+          map.data.remove(feature);
+        });
+
+        var count = 0;
+        const bounds = map.getBounds();
+        const features = geodata.features;
+        for(var i = 0; i < features.length; i ++){
+          const coordinates = features[i].geometry.coordinates;
+          if (bounds.contains(new google.maps.LatLng({ lng: coordinates[0], lat: coordinates[1] }))){
+            map.data.addGeoJson(features[i]); count ++;
+          }
+        }
+        console.log(count + " data added!!!");
+      });
+    }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSYZj72nircNhp5RnkjltwEVijUMa8db4&callback=initMap">
+    </script>
+  </head>
+  <body>
+    <div id="map"></div>
+  </body>
+</html>

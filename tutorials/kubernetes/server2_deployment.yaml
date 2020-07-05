@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+
+kind: Deployment
+metadata:
+  name: count
+  labels:
+    app: count
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: count
+  template:
+    metadata:
+      labels:
+        app: count
+    spec:
+      containers:
+        - name: count
+          image: 'count:v3'
+          volumeMounts:
+          - name: count-data
+            mountPath: /data
+      volumes:
+      - name: count-data
+        persistentVolumeClaim:
+          claimName: count-pv-claim
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: count-pv-claim
+  labels:
+    app: count
+
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Ki

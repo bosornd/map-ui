@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Maps Tutorial</title>
+    <style type="text/css">
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+
+      /* Makes the sample page fill the window. */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script>
+    // Initialize and add the map
+    function initMap() {
+      // The location of seoul station
+      var seoul = { lng: 126.9706673, lat: 37.5547787 };
+      var options = {
+        center: seoul,
+        zoom: 15,
+      };
+      // The map, centered at seoul station
+      var map = new google.maps.Map(document.getElementById('map'), options);
+
+      // The marker, positioned at seoul station
+      var marker = new google.maps.Marker({ position: seoul, map: map });
+    }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSYZj72nircNhp5RnkjltwEVijUMa8db4&callback=initMap">
+    </script>
+  </head>
+  <body>
+    <div id="map"></div>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1beta1
+
+kind: Ingress
+
+metadata:
+  name: ingress-api-gateway
+
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: frontend-server
+          servicePort: 8080
+      - path: /api
+        backend:
+          serviceName: api-server
+          servicePort: 8080

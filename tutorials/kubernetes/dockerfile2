@@ -1,0 +1,4 @@
+FROM node:12.18.0
+EXPOSE 8080
+COPY server2.js .
+CMD node server2.js

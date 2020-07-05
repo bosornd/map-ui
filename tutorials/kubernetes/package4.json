@@ -1,0 +1,11 @@
+{
+  "name": "count",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server4.js"
+  },
+  "dependencies": {
+    "redis": "latest"
+  }
+}
